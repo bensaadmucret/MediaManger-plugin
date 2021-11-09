@@ -1,0 +1,22 @@
+{
+    "name": "MediaManager/MediaManager-plugin",
+    "description": "Awesome starter plugin example",
+    "type": "project",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "MediaManager",
+            "email": "castellani.ale@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "cmb2/cmb2": "9999999-dev"
+    },
+    "autoload": {
+        "psr-4": {"Inc\\": "./inc"}
+    },
+    "require-dev": {
+        "symfony/var-dumper": "9999999-dev"
+    }
+}
