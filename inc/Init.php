@@ -18,7 +18,7 @@ final class Init
             Base\SettingsLinks::class,
             Base\CustomPostTypeController::class,
             Base\CustomTaxonomyController::class,
-            Base\WidgetController::class,
+            //Base\WidgetController::class,
             Base\CustomMetaboxController::class,
             Base\CustomFormAjaxShortcode::class,
             Base\CustomProduitsController::class,

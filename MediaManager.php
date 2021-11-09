@@ -40,7 +40,7 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 }
 
 if (!class_exists('CMB2_Bootstrap_290_Develop')) {
-    require_once dirname(__FILE__)  . '/vendor/cmb2/cmb2/init.php';
+    require_once dirname(__FILE__)  . '/CMB2/init.php';
 }
 
 /**

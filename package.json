@@ -1,11 +1,11 @@
 {
 	"name": "MediaManager-plugin",
 	"version": "1.0.0",
-	"description": "Awesome starter plugin example",
-	"author": "Alessandro Castellani <me@MediaManager.com> (http://MediaManager.com)",
+	"description": "",
+	"author": "",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/MediaManager/WordPressPlugin101"
+		"url": ""
 	},
 	"keywords": [
 		"wordpress",

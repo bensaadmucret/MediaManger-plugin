@@ -80,7 +80,7 @@ class Dashboard extends BaseController
 
     public function setFields()
     {
-        $args = array();
+        $args = [];
 
         foreach ($this->managers as $key => $value) {
             $args[] = array(

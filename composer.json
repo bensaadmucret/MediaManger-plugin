@@ -5,7 +5,7 @@
     "license": "GPL-3.0",
     "authors": [
         {
-            "name": "MediaManager",
+            "name": "Mohammed Bensaad",
             "email": "bensaadmucret@gmail.com"
         }
     ],
@@ -18,5 +18,8 @@
     },
     "require-dev": {
         "symfony/var-dumper": "9999999-dev"
+    },
+    "require": {
+    "php": ">=7.3"    
     }
 }

@@ -22,7 +22,7 @@ class CustomPostTypeController extends BaseController
 
     public $subpages = array();
 
-    public $custom_post_types = array();
+    public $custom_post_types;
 
     public function register()
     {
@@ -48,7 +48,7 @@ class CustomPostTypeController extends BaseController
 
         $this->storeCustomPostTypes();
 
-        if (! empty($this->custom_post_types)) {
+        if (!empty($this->custom_post_types)) {
             add_action('init', array( $this, 'registerCustomPostTypes' ));
         }
     }
@@ -169,10 +169,10 @@ class CustomPostTypeController extends BaseController
 
     public function storeCustomPostTypes()
     {
-        $options = get_option('mzb_plugin_cpt') ?: array();
-
-        foreach ($options as $option) {
-            $this->custom_post_types[] = array(
+        $data = get_option('mzb_plugin_cpt') ?: array();
+        if (!empty($options)):
+            foreach ($data as $option):
+            $this->custom_post_types[] = [
                 'post_type'             => $option['post_type'],
                 'name'                  => $option['plural_name'],
                 'singular_name'         => $option['singular_name'],
@@ -218,8 +218,10 @@ class CustomPostTypeController extends BaseController
                 'exclude_from_search'   => false,
                 'publicly_queryable'    => true,
                 'capability_type'       => 'post'
-            );
-        }
+            ];
+       
+        endforeach;
+        endif;
     }
 
     public function registerCustomPostTypes()
