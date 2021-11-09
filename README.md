@@ -18,6 +18,16 @@ Une interface pour les administrateurs pour gérer les filtres et les produits e
 
 ''' encours
 
+## Traduction multilingue
+
+fonctionnalité à venir :
+
+- template pour les filtres
+- template pour les produits
+- template pour les services
+- template pour les catégories
+- formulaire de contact pour la mise en relation et la demande de devis
+
 ### Installation
 
 - Apres avoir téléchargé le package, il faut installer le plugin.
