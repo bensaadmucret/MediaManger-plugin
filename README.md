@@ -18,9 +18,7 @@ Une interface pour les administrateurs pour gérer les filtres et les produits e
 
 ''' encours
 
-## Traduction multilingue
-
-fonctionnalité à venir :
+## Fonctionnalité à venir
 
 - template pour les filtres
 - template pour les produits
