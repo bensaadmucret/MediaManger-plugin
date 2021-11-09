@@ -30,4 +30,4 @@ Une interface pour les administrateurs pour gérer les filtres et les produits e
 - Apres avoir téléchargé le package, il faut installer le plugin.
 - Puis composer install, pour installer les dépendances.
 - Puis npm install, pour installer les dépendances.
-- Configurer le plugin dans le menu de l'administration.
+- Configurer le plugin dans le menu de l'administration. ( configuration du cutom Post Type et des taxonomies )
