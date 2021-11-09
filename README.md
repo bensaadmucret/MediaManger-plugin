@@ -2,7 +2,6 @@
 
 ## Description et fonctionalités
 
-''' + description + '''
 inclut un module de filtres ajax pour afficher des produits et services de divers prestataires sur votre site.
 Une interface pour les administrateurs pour gérer les filtres et les produits et services.
 
