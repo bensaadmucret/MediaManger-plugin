@@ -1,12 +1,12 @@
 {
-    "name": "MediaManager/MediaManager-plugin",
+    "name": "media-manager-plugin/media-manager-plugin",
     "description": "Awesome starter plugin example",
     "type": "project",
     "license": "GPL-3.0",
     "authors": [
         {
             "name": "MediaManager",
-            "email": "castellani.ale@gmail.com"
+            "email": "bensaadmucret@gmail.com"
         }
     ],
     "minimum-stability": "dev",
