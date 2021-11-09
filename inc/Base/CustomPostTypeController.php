@@ -169,10 +169,18 @@ class CustomPostTypeController extends BaseController
 
     public function storeCustomPostTypes()
     {
-        $data = get_option('mzb_plugin_cpt') ?: array();
-        if (!empty($options)):
-            foreach ($data as $option):
-            $this->custom_post_types[] = [
+        $datas = get_option('mzb_plugin_cpt') ?: array();
+        if (!empty($datas)):
+           
+        foreach ($datas as $key => $option):
+                    // dump($data);
+                    if ($option != "Array"):
+                  
+                    //dump($options[$key] =  $option);
+
+
+
+        $this->custom_post_types[$key] = [
                 'post_type'             => $option['post_type'],
                 'name'                  => $option['plural_name'],
                 'singular_name'         => $option['singular_name'],
@@ -219,7 +227,7 @@ class CustomPostTypeController extends BaseController
                 'publicly_queryable'    => true,
                 'capability_type'       => 'post'
             ];
-       
+        endif;
         endforeach;
         endif;
     }

@@ -18,14 +18,21 @@
 			<h3>Manage Your Custom Post Types</h3>
 
 			<?php
-                $options = get_option('mzb_plugin_cpt') ?: array();
+                $datas = get_option('mzb_plugin_cpt') ?? [];
+                foreach ($datas as $key => $data):
+                    // dump($data);
+                    if ($data != "Array"):
+                  
+                    $options[$key] =  $data;
+                   
+                    
 
                 echo '<table class="cpt-table"><tr><th>ID</th><th>Singular Name</th><th>Plural Name</th><th class="text-center">Public</th><th class="text-center">Archive</th><th class="text-center">Actions</th></tr>';
 
                 foreach ($options as $option) {
                     $public = isset($option['public']) ? "TRUE" : "FALSE";
                     $archive = isset($option['has_archive']) ? "TRUE" : "FALSE";
-
+                   
                     echo "<tr><td>{$option['post_type']}</td><td>{$option['singular_name']}</td><td>{$option['plural_name']}</td><td class=\"text-center\">{$public}</td><td class=\"text-center\">{$archive}</td><td class=\"text-center\">";
 
                     echo '<form method="post" action="" class="inline-block">';
@@ -41,6 +48,8 @@
                     ));
                     echo '</form></td></tr>';
                 }
+                 endif;
+                endforeach;
 
                 echo '</table>';
             ?>
