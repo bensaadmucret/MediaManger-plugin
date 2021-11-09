@@ -2,6 +2,10 @@
 
 ## Description et fonctionalités
 
+''' + description + '''
+inclut un module de filtres ajax pour afficher des produits et services de divers prestataires sur votre site.
+Une interface pour les administrateurs pour gérer les filtres et les produits et services.
+
 ### Taxonomy Manager
 
 ''' Taxonomy Manager est une application de gestion de taxonomie basée sur un modèle de données qui s’adapte à n’importe quel secteur et peut s’adapter aux changements de données et de connaissances dans le temps. Il permet la création d’un nombre illimité de termes, propriétés et relations complexes entre les termes.
