@@ -1,0 +1,1 @@
+# MediaManger-plugin
