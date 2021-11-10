@@ -39,9 +39,17 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
     require_once dirname(__FILE__) . '/vendor/autoload.php';
 }
 
-if (!class_exists('CMB2_Bootstrap_290_Develop')) {
-    require_once dirname(__FILE__)  . '/CMB2/init.php';
+$args = array(
+    'name' => 'produit',
+);
+ 
+$post_types = get_post_types($args, 'objects');
+foreach ($post_types  as $post_type) {
+    dump($post_type->name);
 }
+
+
+
 
 /**
  * The code that runs during plugin activation

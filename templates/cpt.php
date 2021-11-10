@@ -42,6 +42,8 @@
 
                     echo '<form method="post" action="options.php" class="inline-block">';
                     settings_fields('mzb_plugin_cpt_settings');
+                   
+
                     echo '<input type="hidden" name="remove" value="' . $option['post_type'] . '">';
                     submit_button('Delete', 'delete small', 'submit', false, array(
                         'onclick' => 'return confirm("Are you sure you want to delete this Custom Post Type? The data associated with it will not be deleted.");'

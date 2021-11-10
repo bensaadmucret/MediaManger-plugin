@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package  MediaManagerPlugin
  */
@@ -6,89 +6,113 @@ namespace Inc\Api\Callbacks;
 
 class TaxonomyCallbacks
 {
-	public function taxSectionManager() {
-		echo 'Create as many Custom Taxonomies as you want.';
-	}
+    public function __construct()
+    {
+        add_action('wp_head', [ $this,'delete_all_terms' ]);
+    }
+    public function taxSectionManager()
+    {
+        echo 'Create as many Custom Taxonomies as you want.';
+    }
 
-	public function taxSanitize( $input )
-	{
-		$output = get_option('mzb_plugin_tax');
+    public function delete_all_terms($taxonomy_name)
+    {
+        if (isset($_POST["remove"])):
+        $terms = get_terms(array(
+            'taxonomy' => $taxonomy_name,
+            'hide_empty' => false
+        ));
+        foreach ($terms as $term) {
+            wp_delete_term($term->term_id, $taxonomy_name);
+        }
+        endif;
+    }
 
-		if ( isset($_POST["remove"]) ) {
-			unset($output[$_POST["remove"]]);
 
-			return $output;
-		}
 
-		if ( count($output) == 0 ) {
-			$output[$input['taxonomy']] = $input;
 
-			return $output;
-		}
+    public function taxSanitize($input)
+    {
+        $output = get_option('mzb_plugin_tax');
 
-		foreach ($output as $key => $value) {
-			if ($input['taxonomy'] === $key) {
-				$output[$key] = $input;
-			} else {
-				$output[$input['taxonomy']] = $input;
-			}
-		}
-		
-		return $output;
-	}
+        if (isset($_POST["remove"])) {
+            $taxonomy_name = sanitize_text_field($_POST["remove"]);
 
-	public function textField( $args )
-	{
-		$name = $args['label_for'];
-		$option_name = $args['option_name'];
-		$value = '';
+            $this->delete_all_terms($taxonomy_name);
 
-		if ( isset($_POST["edit_taxonomy"]) ) {
-			$input = get_option( $option_name );
-			$value = $input[$_POST["edit_taxonomy"]][$name];
-		}
+            unset($output[$_POST["remove"]]);
 
-		echo '<input type="text" class="regular-text" id="' . $name . '" name="' . $option_name . '[' . $name . ']" value="' . $value . '" placeholder="' . $args['placeholder'] . '" required>';
-	}
+            return $output;
+        }
 
-	public function checkboxField( $args )
-	{
-		$name = $args['label_for'];
-		$classes = $args['class'];
-		$option_name = $args['option_name'];
-		$checked = false;
+        if (count($output) == 0) {
+            $output[$input['taxonomy']] = $input;
 
-		if ( isset($_POST["edit_taxonomy"]) ) {
-			$checkbox = get_option( $option_name );
-			$checked = isset($checkbox[$_POST["edit_taxonomy"]][$name]) ?: false;
-		}
+            return $output;
+        }
 
-		echo '<div class="' . $classes . '"><input type="checkbox" id="' . $name . '" name="' . $option_name . '[' . $name . ']" value="1" class="" ' . ( $checked ? 'checked' : '') . '><label for="' . $name . '"><div></div></label></div>';
-	}
+        foreach ($output as $key => $value) {
+            if ($input['taxonomy'] === $key) {
+                $output[$key] = $input;
+            } else {
+                $output[$input['taxonomy']] = $input;
+            }
+        }
+        
+        return $output;
+    }
 
-	public function checkboxPostTypesField( $args )
-	{
-		$output = '';
-		$name = $args['label_for'];
-		$classes = $args['class'];
-		$option_name = $args['option_name'];
-		$checked = false;
+    public function textField($args)
+    {
+        $name = $args['label_for'];
+        $option_name = $args['option_name'];
+        $value = '';
 
-		if ( isset($_POST["edit_taxonomy"]) ) {
-			$checkbox = get_option( $option_name );
-		}
+        if (isset($_POST["edit_taxonomy"])) {
+            $input = get_option($option_name);
+            $value = $input[$_POST["edit_taxonomy"]][$name];
+        }
 
-		$post_types = get_post_types( array( 'show_ui' => true ) );
+        echo '<input type="text" class="regular-text" id="' . $name . '" name="' . $option_name . '[' . $name . ']" value="' . $value . '" placeholder="' . $args['placeholder'] . '" required>';
+    }
 
-		foreach ($post_types as $post) {
+    public function checkboxField($args)
+    {
+        $name = $args['label_for'];
+        $classes = $args['class'];
+        $option_name = $args['option_name'];
+        $checked = false;
 
-			if ( isset($_POST["edit_taxonomy"]) ) {
-				$checked = isset($checkbox[$_POST["edit_taxonomy"]][$name][$post]) ?: false;
-			}
+        if (isset($_POST["edit_taxonomy"])) {
+            $checkbox = get_option($option_name);
+            $checked = isset($checkbox[$_POST["edit_taxonomy"]][$name]) ?: false;
+        }
 
-			$output .= '<div class="' . $classes . ' mb-10"><input type="checkbox" id="' . $post . '" name="' . $option_name . '[' . $name . '][' . $post . ']" value="1" class="" ' . ( $checked ? 'checked' : '') . '><label for="' . $post . '"><div></div></label> <strong>' . $post . '</strong></div>';
-		}
+        echo '<div class="' . $classes . '"><input type="checkbox" id="' . $name . '" name="' . $option_name . '[' . $name . ']" value="1" class="" ' . ($checked ? 'checked' : '') . '><label for="' . $name . '"><div></div></label></div>';
+    }
 
-		echo $output;
-	}
+    public function checkboxPostTypesField($args)
+    {
+        $output = '';
+        $name = $args['label_for'];
+        $classes = $args['class'];
+        $option_name = $args['option_name'];
+        $checked = false;
+
+        if (isset($_POST["edit_taxonomy"])) {
+            $checkbox = get_option($option_name);
+        }
+
+        $post_types = get_post_types(array( 'show_ui' => true ));
+
+        foreach ($post_types as $post) {
+            if (isset($_POST["edit_taxonomy"])) {
+                $checked = isset($checkbox[$_POST["edit_taxonomy"]][$name][$post]) ?: false;
+            }
+
+            $output .= '<div class="' . $classes . ' mb-10"><input type="checkbox" id="' . $post . '" name="' . $option_name . '[' . $name . '][' . $post . ']" value="1" class="" ' . ($checked ? 'checked' : '') . '><label for="' . $post . '"><div></div></label> <strong>' . $post . '</strong></div>';
+        }
+
+        echo $output;
+    }
 }

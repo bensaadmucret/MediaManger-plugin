@@ -11,15 +11,29 @@ class CptCallbacks
         echo 'Create as many Custom Post Types as you want.';
     }
 
+    public function remove_cpt($cpt)
+    {
+        if (isset($_POST["remove"]) && !empty($_POST["remove"])):
+        $produits = get_posts(array( 'post_type' =>  $cpt, 'numberposts' => -1 ));
+        dd($produits);
+        foreach ($produits as $produit) {
+            wp_delete_post($produit->ID, true);
+        }
+        endif;
+    }
+
     public function cptSanitize($input)
     {
         $output = get_option('mzb_plugin_cpt');
 
-        if (isset($_POST["remove"])) {
+        if (isset($_POST["remove"]) && !empty($_POST["remove"])) {
+            $cpt = sanitize_text_field($_POST["remove"]);
+            $this->remove_cpt($cpt);
             unset($output[$_POST["remove"]]);
-
             return $output;
         }
+           
+        
       
         if (count($output) == 0) {
             $output[$input['post_type']] = $input;

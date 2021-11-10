@@ -50,6 +50,7 @@ class CustomPostTypeController extends BaseController
 
         if (!empty($this->custom_post_types)) {
             add_action('init', array( $this, 'registerCustomPostTypes' ));
+            flush_rewrite_rules();
         }
     }
 
