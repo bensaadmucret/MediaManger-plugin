@@ -13,13 +13,10 @@ class CptCallbacks
 
     public function remove_cpt($cpt)
     {
-        if (isset($_POST["remove"]) && !empty($_POST["remove"])):
         $produits = get_posts(array( 'post_type' =>  $cpt, 'numberposts' => -1 ));
-        dd($produits);
         foreach ($produits as $produit) {
             wp_delete_post($produit->ID, true);
         }
-        endif;
     }
 
     public function cptSanitize($input)

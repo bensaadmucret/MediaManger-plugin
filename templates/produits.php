@@ -26,7 +26,10 @@ $produits = CustomProduitsController::get_produits();
                     </div>
                 </div>
             <?php endforeach; ?>
-   
+            <div id="notification"></div>
+
+        
+
                  
         </div>
     </div>
