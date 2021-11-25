@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", function () {
-  const searchBar = document.getElementById("searchBar");
-  //const form = document.getElementById("form-ajax");
+  
+  const form = document.getElementById("form-ajax");
   if (form) {
     form.addEventListener("change", function (e) {
       e.preventDefault();
@@ -202,33 +202,31 @@ window.addEventListener("DOMContentLoaded", function () {
   const searchBar = document.getElementById("searchBar");
   const produitList = document.getElementById('produitList');
   const formAjax = document.getElementById('form-ajax')
+  const getUrl = window.location;
+  const baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
   var data = [];
   
-
+if(formAjax){
   formAjax.addEventListener('change', function (e) {
     e.preventDefault();
     //console.log(e.target);
     let data_check = e.target.name
     let id = e.target.id;
     console.log(data_check, id, 'hello');
-    loadApi(data_check, id);
+    loadApiWithParams(data_check, id);
   });
+}
 
   /********************************************/
   /* FUNCTION TO GET THE DATA FROM THE SERVER */
   /******************************************* */
 
 
-  const loadApi = async (data_check=null, id=null) => {
-   
-    let getUrl = window.location;
-    let baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
-    if (data_check != null && id != null) {
-      url = baseUrl + "wp-json/wp/v2/produit?" + data_check + "=" + id;
-      console.log('je rentre dans la condition');
-    } else {
-      let url = baseUrl + "wp-json/wp/v2/produit";
-    }
+  const loadApiWithParams = async (data_check, id) => {
+    
+    let url = baseUrl + "wp-json/wp/v2/produit?" + data_check + "=" + id;
+    
+  
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -239,26 +237,33 @@ window.addEventListener("DOMContentLoaded", function () {
       console.log(error);
     }
   }
- loadApi(data_check, id);
+
   /*********************************************** */
-  /* FUNCTION BARRE DE RECHERCHE                   */
+  /* FUNCTION QUERY ALL                */
  /************************************************** */
-  if (searchBar) {
-    searchBar.addEventListener("keyup", function (e) {
-      const searchString = e.target.value.toLowerCase();
-      
-      const filteredProduits = data.filter( (produit) => {
-       console.log(produit.title.rendered);
-      return (produit.title.rendered.toLowerCase().includes(searchValue));
-        
+    const loadApi = async () => {
+    let url = baseUrl + "wp-json/wp/v2/produit";
+    
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      displayData(data);
+      searchBar.addEventListener("keyup", function (e) {
+      const searchString = e.target.value.toLowerCase();  
+      const filteredProduits = data.filter((produit) => {
+      return (produit.title.rendered.toLowerCase().includes(searchString));
       });
-      loadApi();
-      displayData(filteredProduits);
-       
+     displayData(filteredProduits);
         
     });
-  }//end if
-
+      
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+  loadApi();
+ 
 
   /**************************************************** */
   /*  FUNCTUIN RENDER DATA */
