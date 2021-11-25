@@ -102,51 +102,78 @@ function media_manager()
     }
 
     foreach ($tax as $key => $value) {
-        $tax_query[] = array(
-                'taxonomy' => $key,
-                'field' => 'slug',
-                'terms' => $value,
-            );
-        foreach ($tax_query as $key => $value) {
-            $tax_query_array[] = $value;
-        }
+        $tax_name = $key;
     }
     $args = array(
-            'post_type' =>  $cpt_name,
-           // 'tax_query' => $tax_query,
+            'post_type' => $cpt_name,
             'posts_per_page' => -1,
-            'orderby' => 'title',
-            'order' => 'ASC',
+           /* 'tax_query' => array(
+                array(
+                    'taxonomy' => $value,
+                    'field' => 'slug',
+                    'terms' => $key
+                )
+            )*/
         );
-        
+    $query = new WP_Query($args);
+    $posts = array();
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $posts[] = array(
+                    'id' => get_the_ID(),
+                    'title' => get_the_title(),
+                    'content' => get_the_content(),
+                    'thumbnail' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'),
+                    'medium' => get_the_post_thumbnail_url(get_the_ID(), 'medium'),
+                    'large' => get_the_post_thumbnail_url(get_the_ID(), 'large'),
+                    'full' => get_the_post_thumbnail_url(get_the_ID(), 'full'),
+                    'excerpt' => get_the_excerpt(),
+                    'permalink' => get_the_permalink(),
+                    'author' => get_the_author(),
+                    'author_url' => get_author_posts_url(get_the_author_meta('ID')),
+                    'post_date' => get_the_date(),
+                    'post_date_gmt' => get_the_date('Y-m-d H:i:s', '', '', true),
+                    'post_modified' => get_the_modified_date(),
+                    'post_modified_gmt' => get_the_modified_date('Y-m-d H:i:s', '', '', true),
+                    'post_status' => get_post_status(),
+                    'taxonomy' => get_the_terms(get_the_ID(), $tax_name),
+                   
+              
+                    'post_name' => get_post_field('post_name', get_the_ID()),
+                
+                    'post_content_filtered' => get_post_field('post_content_filtered', get_the_ID()),
+                );
+        }
+
     
-    $posts = get_posts($args);
-    $data = array();
-    foreach ($posts as $post) {
-        $data[] = array(
-            'id' => $post->ID,
-            'title' => $post->post_title,
-            //'content' => $post->post_content,
-            'thumbnail' => get_the_post_thumbnail_url($post->ID),
-            'link' => get_permalink($post->ID),
-            'date' => $post->post_date,
-            'author' => get_the_author_meta('display_name', $post->post_author),
-         );
+        /*$posts = get_posts($args);
+        $data = array();
+        foreach ($posts as $post) {
+            $data[] = array(
+                'id' => $post->ID,
+                'title' => $post->post_title,
+                'content' => $post->post_content,
+                'thumbnail' => get_the_post_thumbnail_url($post->ID),
+                'link' => get_permalink($post->ID),
+                'date' => $post->post_date,
+                'author' => get_the_author_meta('display_name', $post->post_author),
+                'author_link' => get_author_posts_url($post->post_author),
+                'categories' => get_the_category($post->ID),
+                'tags' => get_the_tags($post->ID),
+                'comments' => get_comments_number($post->ID),
+                'taxonomy' => get_the_terms( int|WP_Post $post, string $taxonomy )
+
+             );
+        }*/
+    
+        // wp_send_json($data);
+        wp_send_json($posts);
     }
-    
-    wp_send_json($data);
 }
 
 
-function my_plugin_rest_route_for_term($route, $term)
-{
-    if ($term->taxonomy === 'genre') {
-        $route = '/wp/v2/genre/' . $term->term_id;
-    }
- 
-    return $route;
-}
-add_filter('rest_route_for_term', 'my_plugin_rest_route_for_term', 10, 2);
+
 
 
 

@@ -76,8 +76,9 @@ class GestionProduitsAjax extends BaseController
                 />
             </div>
             <ul id="produitList"></ul>
+            <div id="pagination"></div>
         </div>';
-        
+
          
 
 

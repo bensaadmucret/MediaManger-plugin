@@ -224,7 +224,7 @@ if(formAjax){
 
   const loadApiWithParams = async (data_check, id) => {
     
-    let url = baseUrl + "wp-json/wp/v2/produit?" + data_check + "=" + id;
+    let url = baseUrl + "wp-json/wp/v2/media_manager?" + data_check + "=" + id;
     
   
     try {
@@ -242,20 +242,21 @@ if(formAjax){
   /* FUNCTION QUERY ALL                */
  /************************************************** */
     const loadApi = async () => {
-    let url = baseUrl + "wp-json/wp/v2/produit";
+    let url = baseUrl + "wp-json/wp/v2/media_manager";
     
     try {
       const response = await fetch(url);
       const data = await response.json();
       displayData(data);
-      searchBar.addEventListener("keyup", function (e) {
-      const searchString = e.target.value.toLowerCase();  
-      const filteredProduits = data.filter((produit) => {
-      return (produit.title.rendered.toLowerCase().includes(searchString));
-      });
-     displayData(filteredProduits);
-        
-    });
+      if (searchBar) {
+        searchBar.addEventListener("keyup", function (e) {
+          const searchString = e.target.value.toLowerCase();
+          const filteredProduits = data.filter((produit) => {
+            return (produit.title.rendered.toLowerCase().includes(searchString));
+          });
+          displayData(filteredProduits);
+        });
+      }  
       
     }
     catch (error) {
@@ -271,7 +272,7 @@ if(formAjax){
 
   const displayData = async (data) => {
     const htmlString = data.map((data) => {
-      console.log(data);
+      
       return `
     
     <div class="card">
@@ -283,13 +284,22 @@ if(formAjax){
     <a href="${data.guid.rendered}" class="btn btn-primary">voir la produit</a>
     </div>
     </div>
+     
+
   
     `;
+       
     }).join("");
     produitList.innerHTML = htmlString;
   }
 
- 
+
+
+
+        
+
+
+      
 
 }); 
 
