@@ -21,6 +21,7 @@ final class Init
             Base\CustomMetaboxController::class,
             Base\CustomFormAjaxShortcode::class,
             Base\CustomProduitsController::class,
+            Base\GestionProduitsAjax::class,
         ];
     }
 

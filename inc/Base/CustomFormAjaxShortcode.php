@@ -18,6 +18,7 @@ class CustomFormAjaxShortcode extends BaseController
     {
         add_shortcode('custom_form_ajax', [$this, 'add_form_ajax_template']);
         add_shortcode('produits_lists', [$this, 'produits_lists_shortcode']);
+        add_shortcode('make_shortcode', [$this, 'make_shortcode']);
 
         add_action('wp_ajax_custom_form_ajax_call', array($this, 'custom_form_ajax_call'));
         add_action('wp_ajax_nopriv_custom_form_ajax_call', array($this, 'custom_form_ajax_call'));
@@ -34,19 +35,8 @@ class CustomFormAjaxShortcode extends BaseController
 
        
 
-    public function produits_lists_shortcode($atts)
+    public function produits_lists_shortcode()
     {
-        if (isset($_POST['data'])):
-
-            $truc = $_POST['data'];
-        echo $truc;
-
-
-        endif;
-
-        $base_url= home_url();
-
-
         $cpt = get_option('mzb_plugin_cpt');
         foreach ($cpt as $key => $value) {
             $cpt_name = $value;
@@ -63,7 +53,10 @@ class CustomFormAjaxShortcode extends BaseController
             }
         }
 
-        extract(shortcode_atts(array('expand' => '',), $atts));
+        $args = array(
+            'post_type' => $cpt_name,
+            'tax_query' => $tax_query,
+        );
     
         global $paged;
         $posts_per_page = 5;
@@ -120,32 +113,83 @@ class CustomFormAjaxShortcode extends BaseController
 
     public function custom_form_ajax_call()
     {
+        if (isset($_POST['searchValue'])) {
+            $searchValue = $_POST['searchValue'];
+            echo $searchValue;
+        }
+      
         $base_url= home_url();
-        $apiUrl = $base_url .'/wp-json/wp/v2/produit';
+        $apiUrl = $base_url .'/wp-json/wp/v2/produit?genre=49&&?mon-test=47';
         $response = wp_remote_get($apiUrl);
         $responseBody = wp_remote_retrieve_body($response);
-        $result = json_decode($responseBody);
-        if (is_array($result) && ! is_wp_error($result)) {
-            foreach ($result as $key => $value) {
-                $produits[] = $value;
-                print_r($produits);
-            }
-        } else {
-            // Work with the error
-            echo 'error';
-        }
-
+        echo $responseBody;
+         
+            
+        
         wp_die();
     }
     
-    public function get($resource)
+ 
+    public function make_shortcode($args)
     {
-        $apiUrl = 'http://gestion-produits.local/wp-admin/admin-ajax.php';
-        $json = file_get_contents($apiUrl.$resource);
-        $result = json_decode($json);
-        return $result;
+        $args = shortcode_atts(array(
+            'id' => '',
+        ), $args, 'produits_lists');
+        $cpt = get_option('mzb_plugin_cpt');
+        foreach ($cpt as $key => $value) {
+            $cpt_name = $value;
+        }
+        $tax = get_option('mzb_plugin_tax');
+        foreach ($tax as $key => $value) {
+            $tax_name = $value;
+            foreach ($value as $key => $value) {
+                $tax_query[] = array(
+                    'taxonomy' => $key,
+                    'field' => 'slug',
+                    'terms' => $value,
+                );
+            }
+        }
+        extract(shortcode_atts(array('expand' => '',), $args));
+        global $paged;
+        $posts_per_page = 5;
+        $settings = array(
+            'showposts' => $posts_per_page,
+            'post_type' =>  $cpt_name,
+            'orderby' => 'menu_order',
+            'order' => 'ASC',
+            'paged' => $paged,
+            'tax_query' => $tax_query,
+            );
+        $post_query = new \WP_Query($settings);
+        $list = '<div class="portfolio-item-list">';
+        while ($post_query->have_posts()) : $post_query->the_post();
+        $list .= '
+        <div class="single-portfolio-item">
+            <div class="portfolio-item-thumb">
+                <a href="' . get_the_permalink() . '">
+                    <img src="' . get_the_post_thumbnail_url() . '" alt="">
+                </a>
+            </div>
+            <div class="portfolio-item-content">
+                <h3><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></h3>
+               
+                <a href="' . get_the_permalink() . '" class="btn btn-primary">Voir plus</a>               
+            </div>
+        </div>
+        ';
+        endwhile;
+        $list.= '</div>';
+        if (function_exists('wp_pagenavi')) {
+            $list .='<div class="page-navigation">'.wp_pagenavi(array('query' => $post_query, 'echo' => false)).'</div>';
+        } else {
+            $list.='
+        <span class="next-posts-links">'.get_next_posts_link('Next page', $total_page).'</span>
+        <span class="prev-posts-links">'.get_previous_posts_link('Previous page').'</span>
+        ';
+            return $list;
+        }
     }
-
 
 
 
@@ -198,7 +242,7 @@ class CustomFormAjaxShortcode extends BaseController
                                         if (!empty($myterms)) :
                                     if ($sous_taxo->parent == 0) {
                                         echo  '<div>';
-                                        echo  '<input type="checkbox" id="' . $sous_taxo->slug . '" name="' .  $sous_taxo->slug . '">';
+                                        echo  '<input type="checkbox" id="' . $sous_taxo->term_id . '" name=' . $sous_taxo->taxonomy .' value="' .  $sous_taxo->slug . '">';
                                         echo  '<label for="' . $sous_taxo->name . '">' .  $sous_taxo->name . '</label>';
                                         echo  '</div>';
                                     }
@@ -207,8 +251,8 @@ class CustomFormAjaxShortcode extends BaseController
                                         if (!empty($myterms_children)) :
                                     echo '<ul>';
                                         foreach ($myterms_children as $key => $value_child) : ?>
-                                        <div>
-                                            <input class="form-check-input" type="checkbox" value="<?php echo $sous_taxo->slug; ?>" id="<?php echo $sous_taxo->slug; ?>">
+                                        <div>   
+                                            <input class="form-check-input" type="checkbox" name=<?php echo $value_child->taxonomy; ?> value="<?php echo $sous_taxo->slug; ?>" id="<?php echo $sous_taxo->term_id; ?>">
                                             <label class="form-check-label" for="<?php echo $sous_taxo->slug; ?>">
                                                 <?php echo $value_child->name; ?>
                                             </label>
