@@ -251,7 +251,6 @@ window.addEventListener("DOMContentLoaded", function () {
        console.log(produit.title.rendered);
       return (produit.title.rendered.toLowerCase().includes(searchValue));
         
-        
       });
       loadApi();
       displayData(filteredProduits);
