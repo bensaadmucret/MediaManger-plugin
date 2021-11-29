@@ -23,7 +23,8 @@ class CustomProduitsController extends BaseController
 
     public static function get_produits()
     {
-        $customPostType = get_option('mzb_plugin_cpt') ?: array();
+        //$customPostType = get_option('mzb_plugin_cpt') ?: array();
+        $customPostType = ['produit'];
         
         foreach ($customPostType as $key => $value) {
             $args = [

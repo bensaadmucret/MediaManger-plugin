@@ -22,7 +22,7 @@ final class Init
             Base\CustomFormAjaxShortcode::class,
             Base\CustomProduitsController::class,
             Base\GestionProduitsAjax::class,
-            Base\PostTypeController::class,
+           // Base\PostTypeController::class,
         ];
     }
 

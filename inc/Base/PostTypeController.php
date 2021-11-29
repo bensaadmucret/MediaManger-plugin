@@ -14,9 +14,9 @@ class PostTypeController extends BaseController
 
     public function register()
     {
-        if (!$this->activated('post_type_manager')) {
+        /*if (!$this->activated('post_type_manager')) {
             return;
-        }
+        }*/
         add_action('init', [$this, 'register_post_type']);
     }
 
@@ -31,7 +31,7 @@ class PostTypeController extends BaseController
             'archives' => __('Archives Produit', 'MediaManagerPlugin'),
             'attributes' => __('Attributs Produit', 'MediaManagerPlugin'),
             'parent_item_colon' => __('Parents Produit:', 'MediaManagerPlugin'),
-            'all_items' => __('Tous Produits', 'MediaManagerPlugin'),
+            'all_items' => __('Tous les Produits', 'MediaManagerPlugin'),
             'add_new_item' => __('Ajouter nouvel Produit', 'MediaManagerPlugin'),
             'add_new' => __('Ajouter', 'MediaManagerPlugin'),
             'new_item' => __('Nouvel Produit', 'MediaManagerPlugin'),
@@ -58,7 +58,7 @@ class PostTypeController extends BaseController
             'labels' => $labels,
             'menu_icon' => 'dashicons-buddicons-replies',
             'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'author', 'comments', 'trackbacks', 'page-attributes', 'post-formats', 'custom-fields'),
-            'taxonomies' => array(),
+            'taxonomies' => array('category', 'post_tag'),
             'public' => true,
             'show_ui' => true,
             'show_in_menu' => true,
@@ -73,6 +73,24 @@ class PostTypeController extends BaseController
             'publicly_queryable' => true,
             'capability_type' => 'post',
         );
-        register_post_type('produit', $args);
+        register_post_type($this->post_type, $args);
+    }
+
+    public function getPostTypeName()
+    {
+        return $this->post_type;
+    }
+
+    public function get_taxonomies()
+    {
+        $taxonomies = get_object_taxonomies($this->post_type, 'objects');
+        return $taxonomies;
+    }
+
+    public function get_taxonomy_name($taxonomy)
+    {
+        $taxonomies = $this->get_taxonomies();
+        dump($taxonomies);
+        return $taxonomies[$taxonomy]->labels->name;
     }
 }

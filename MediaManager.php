@@ -2,6 +2,9 @@
 /**
  * @package  MediaManagerPlugin
  */
+
+use Inc\Base\PostTypeController;
+
 /*
 Plugin Name: MediaManager Plugin
 Plugin URI:
@@ -34,14 +37,18 @@ Copyright 2005-2015 Automattic, Inc.
 // If this file is called firectly, abort!!!
 defined('ABSPATH') or die('Hey, what are you doing here? You silly human!');
 
+
+
 // Require once the Composer Autoload
 if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
     require_once dirname(__FILE__) . '/vendor/autoload.php';
 }
+if (!defined('ABSPATH')) {
+    define('ABSPATH', dirname(__FILE__) . '/');
+}
 
 
-
-
+require_once(ABSPATH . 'wp-load.php');
 require_once plugin_dir_path(__FILE__) . '/Helper.php';
 
 
@@ -64,6 +71,20 @@ function deactivate_mzb_plugin()
     Inc\Base\Deactivate::deactivate();
 }
 register_deactivation_hook(__FILE__, 'deactivate_mzb_plugin');
+
+
+
+
+$postTypeController = new PostTypeController();
+
+$produit = $postTypeController->getPostTypeName();
+//dump($postTypeController);
+$produit = get_posts(array( 'post_type' =>  $produit, 'numberposts' => -1 ));
+//dump($produit);
+
+$taxonomies = get_object_taxonomies('produit', 'objects');
+//dump($taxonomies);
+
 
 
 
@@ -98,11 +119,14 @@ add_action('rest_api_init', function () {
  */
 function media_manager()
 {
-    $cpt = get_option('mzb_plugin_cpt');
+    $postTypeController = new PostTypeController();
+    $cpt_name = $postTypeController->getPostTypeName();
+
+    //$cpt = get_option('mzb_plugin_cpt');
     $tax = get_option('mzb_plugin_tax');
-    foreach ($cpt as $key => $value) {
+    /*foreach ($cpt as $key => $value) {
         $cpt_name = $value;
-    }
+    }*/
 
     foreach ($tax as $key => $value) {
         $tax_name = $key;

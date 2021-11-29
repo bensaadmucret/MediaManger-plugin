@@ -21,7 +21,7 @@ class BaseController
         $this->plugin = plugin_basename(dirname(__FILE__, 3)) . '/MediaManager-plugin.php';
 
         $this->managers = array(
-           // 'cpt_manager' => 'Activate CPT Manager',
+            'cpt_manager' => 'Activate CPT Manager',
             'taxonomy_manager' => 'Activate Taxonomy Manager',
             'custom_metabox_manager' => 'Activate Custom Metabox',
             'custom_produits_manager' => 'Activate Shortcode Produits',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca9dd0b6014ff5e46483bbb9864dcdf9",
+    "content-hash": "5893c958da648ff4ceebff0a5434924e",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -64,6 +64,53 @@
                 "source": "http://wordpress.org/support/plugin/cmb2"
             },
             "time": "2021-09-05T01:33:00+00:00"
+        },
+        {
+            "name": "jjgrainger/posttypes",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jjgrainger/PostTypes.git",
+                "reference": "a87584606e9ef726f7621c1d71a184fdf7282172"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jjgrainger/PostTypes/zipball/a87584606e9ef726f7621c1d71a184fdf7282172",
+                "reference": "a87584606e9ef726f7621c1d71a184fdf7282172",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "8.*",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PostTypes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joe Grainger",
+                    "email": "hello@jjgrainger.co.uk",
+                    "homepage": "https://jjgrainger.co.uk"
+                }
+            ],
+            "description": "Simple WordPress custom post types.",
+            "homepage": "https://github.com/jjgrainger/posttype",
+            "support": {
+                "issues": "https://github.com/jjgrainger/PostTypes/issues",
+                "source": "https://github.com/jjgrainger/PostTypes/tree/v2.1"
+            },
+            "time": "2020-04-12T13:01:12+00:00"
         }
     ],
     "packages-dev": [
@@ -2433,6 +2480,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "cmb2/cmb2": 20,
+        "jjgrainger/posttypes": 20,
         "symfony/var-dumper": 20,
         "phpunit/phpunit": 20
     },
