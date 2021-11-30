@@ -1,0 +1,18 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5 # or alternative dependency management
+      - uses: php-actions/phpunit@v3
+      - name: Install WordPress
+        run: composer install --no-dev --prefer-dist --no-interaction
+    with:
+      configuration: phpunit.xml.dist
+
+    # ... then your own project steps ...
