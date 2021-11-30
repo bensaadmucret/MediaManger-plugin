@@ -68,7 +68,7 @@ function better_rest_api_featured_images_get_field($object, $field_name, $reques
 
 
 
-add_action('admin_enqueue_scripts', 'media_manager_assets');
+//add_action('admin_enqueue_scripts', 'media_manager_assets');
 function media_manager_assets()
 {
     wp_enqueue_script('media-manager-js', plugin_dir_url(__FILE__) . 'assets/js/dashboard.js', array(), '1.0.0', true);

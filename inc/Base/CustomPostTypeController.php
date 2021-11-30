@@ -180,16 +180,13 @@ class CustomPostTypeController extends BaseController
         $this->custom_post_types[$key]['plural_name'] = 'Produits';
         $this->custom_post_types[$key]['public'] = true;
         $this->custom_post_types[$key]['has_archive'] = true;
-                
-        
+        $this->custom_post_types[$key]['supports'] = array( 'title', 'editor', 'thumbnail' );
+        $this->custom_post_types[$key]['taxonomies'] = array( 'category', 'post_tag' );
+        $this->custom_post_types[$key]['rewrite'] = array( 'slug' => 'produit', 'with_front' => true );
+        $this->custom_post_types[$key]['menu_icon'] = 'dashicons-buddicons-replies';
+        $this->custom_post_types[$key]['capability_type'] = 'post';
 
         
-               
-
-                  
-
-
-  
         endforeach;
         endif;
     }

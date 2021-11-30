@@ -14,9 +14,9 @@ class PostTypeController extends BaseController
 
     public function register()
     {
-        /*if (!$this->activated('post_type_manager')) {
+        if (!$this->activated('post_type_manager')) {
             return;
-        }*/
+        }
         add_action('init', [$this, 'register_post_type']);
     }
 

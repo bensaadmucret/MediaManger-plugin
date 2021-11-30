@@ -16,13 +16,12 @@ final class Init
             Pages\Dashboard::class,
             Base\Enqueue::class,
             Base\SettingsLinks::class,
-            Base\CustomPostTypeController::class,
             Base\CustomTaxonomyController::class,
             Base\CustomMetaboxController::class,
             Base\CustomFormAjaxShortcode::class,
             Base\CustomProduitsController::class,
             Base\GestionProduitsAjax::class,
-           // Base\PostTypeController::class,
+            Base\PostTypeController::class,
         ];
     }
 

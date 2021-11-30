@@ -20,7 +20,11 @@ class Enqueue extends BaseController
     public function enqueue()
     {
         wp_enqueue_style('form-ajax', $this->plugin_url . 'assets/form-ajax.css');
+        wp_enqueue_style('mystyle', $this->plugin_url . 'assets/mystyle.css');
+
         wp_enqueue_script('form-ajax', $this->plugin_url . 'assets/form-ajax.js');
+        wp_enqueue_script('myscript', $this->plugin_url . 'assets/myscript.js');
+
         wp_enqueue_script('hello-script', $this->plugin_url . 'assets/hello.js');
     }
 }
