@@ -12,7 +12,7 @@ jobs:
       - uses: php-actions/phpunit@v3
       - name: Install WordPress
         run: composer install --no-dev --prefer-dist --no-interaction
-      with:
-        configuration: phpunit.xml.dist
+  with:
+    configuration: phpunit.xml.dist
 
     # ... then your own project steps ...
