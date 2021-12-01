@@ -1,3 +1,5 @@
+[![Build Status](https://app.travis-ci.com/bensaadmucret/MediaManger-plugin.svg?branch=Releases)](https://app.travis-ci.com/bensaadmucret/MediaManger-plugin)
+
 # Présenter des produits et services de divers prestataires sur votre site avec des filtres ajax
 
 ## Description et fonctionalités
