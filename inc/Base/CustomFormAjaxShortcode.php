@@ -37,10 +37,6 @@ class CustomFormAjaxShortcode extends BaseController
 
     public function produits_lists_shortcode()
     {
-        $cpt = get_option('mzb_plugin_cpt');
-        foreach ($cpt as $key => $value) {
-            $cpt_name = $value;
-        }
         $tax = get_option('mzb_plugin_tax');
         foreach ($tax as $key => $value) {
             $tax_name = $value;
@@ -54,7 +50,7 @@ class CustomFormAjaxShortcode extends BaseController
         }
 
         $args = array(
-            'post_type' => $cpt_name,
+            'post_type' => 'produit',
             'tax_query' => $tax_query,
         );
     
@@ -62,7 +58,7 @@ class CustomFormAjaxShortcode extends BaseController
         $posts_per_page = 5;
         $settings = array(
             'showposts' => $posts_per_page,
-            'post_type' =>  $cpt_name,
+            'post_type' =>  'produit',
             'orderby' => 'menu_order',
             'order' => 'ASC',
             'paged' => $paged,
@@ -78,6 +74,7 @@ class CustomFormAjaxShortcode extends BaseController
         $list = '<div class="portfolio-item-list">';
         while ($post_query->have_posts()) : $post_query->the_post();
         $list .= '
+        <div class="container">
 		<div class="single-portfolio-item">
             <div class="portfolio-item-thumb">
                 <a href="' . get_the_permalink() . '">
@@ -90,9 +87,10 @@ class CustomFormAjaxShortcode extends BaseController
                 <a href="' . get_the_permalink() . '" class="btn btn-primary">Voir plus</a>               
             </div>
 		</div>
+        </div>
 		';
         endwhile;
-        $list.= '</div>';
+       
     
         if (function_exists('wp_pagenavi')) {
             $list .='<div class="page-navigation">'.wp_pagenavi(array('query' => $post_query, 'echo' => false)).'</div>';
@@ -101,6 +99,9 @@ class CustomFormAjaxShortcode extends BaseController
         <span class="next-posts-links">'.get_next_posts_link('Next page', $total_page).'</span>
         <span class="prev-posts-links">'.get_previous_posts_link('Previous page').'</span>
         ';
+            $list.= '</div>';
+
+        
             return $list;
         }
     }
@@ -155,7 +156,7 @@ class CustomFormAjaxShortcode extends BaseController
         $posts_per_page = 5;
         $settings = array(
             'showposts' => $posts_per_page,
-            'post_type' =>  $cpt_name,
+            'post_type' =>  'produit',
             'orderby' => 'menu_order',
             'order' => 'ASC',
             'paged' => $paged,
